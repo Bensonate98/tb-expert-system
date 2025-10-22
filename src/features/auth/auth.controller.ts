@@ -31,6 +31,7 @@ class AuthController {
     const data: VerifyEmailDto = req.body;
     try {
       const { safeUser, accessToken, refreshToken } = await this.authService.veryEmail(data);
+      logger.info("Email verified");
       successResponse(res, 200, "Email verified successfully", { accessToken, refreshToken, user: safeUser });
     }
     catch(err){
@@ -42,6 +43,7 @@ class AuthController {
     const userData: LoginDto = req.body;
     try {
       const { safeUser, accessToken, refreshToken } = await this.authService.loginUser(userData);
+      logger.info("Login successful");
       successResponse(res, 200, "Login successful", { accessToken, refreshToken, user: safeUser });
     }
     catch(err){
@@ -53,6 +55,7 @@ class AuthController {
     const token: RefreshTokenDto = req.body;
     try {
       const newTokens = await this.authService.refreshToken(token);
+      logger.info("New tokens issued");
       successResponse(res, 200, "Tokens refreshed successfully", newTokens);
     }
     catch(err){
@@ -64,38 +67,3 @@ class AuthController {
 
 
 export default AuthController;
-
-
-
-// export const registerUser = async (
-//   req: Request,
-//   res: Response,
-//   next: NextFunction
-// ) => {
-//   const userData: signupDTO = req.body;
-//   try {
-//     const user = await AuthService.register(userData);
-//     sendResponse(
-//       res,
-//       201,
-//       'User registered successfully, check your email for OTP',
-//       user
-//     );
-//   } catch (err) {
-//     next(err);
-//   }
-// };
-
-// export const verifyUserEmail = async (
-//   req: Request,
-//   res: Response,
-//   next: NextFunction
-// ) => {
-//   const data: VerifyEmailDTO = req.body;
-//   try {
-//     const code = await AuthService.veryEmail(data);
-//     sendResponse(res, 201, 'Email verified successfully');
-//   } catch (err) {
-//     next(err);
-//   }
-// };
