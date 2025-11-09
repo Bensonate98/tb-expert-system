@@ -1,5 +1,4 @@
-// This is your Prisma schema file.
-// Learn more about it in the docs: https://pris.ly/d/prisma-schema
+// ========================= GENERATOR & DATASOURCE =========================
 
 generator client {
   provider = "prisma-client-js"
@@ -40,24 +39,31 @@ model User {
 
   // Relations
   profile       UserProfile?
+  posts         Post[]
   otps          Otp[]
   refreshTokens RefreshToken[]
 }
+
+// ---------------------------------------------------------
 
 model UserProfile {
   id            String   @id @default(uuid())
   userId        String   @unique
   courseId      String
   institutionId String
+  departmentId  String
+  level         String
+  avatarUrl     String
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 
-  // Relation
-  user        User        @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  photos      Photo[]
-  institution Institution @relation(fields: [institutionId], references: [id], onDelete: Restrict, onUpdate: Cascade)
-  course      Course      @relation(fields: [courseId], references: [id], onDelete: Restrict, onUpdate: Cascade)
+  // Relations
+  user         User         @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  institution  Institution  @relation(fields: [institutionId], references: [id], onDelete: Restrict, onUpdate: Cascade)
+  course       Course       @relation(fields: [courseId], references: [id], onDelete: Restrict, onUpdate: Cascade)    
 }
+
+// ---------------------------------------------------------
 
 model Otp {
   id        String   @id @default(uuid())
@@ -70,6 +76,8 @@ model Otp {
   // Relation
   user User @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 }
+
+// ---------------------------------------------------------
 
 model RefreshToken {
   id        String   @id @default(uuid())
@@ -84,20 +92,9 @@ model RefreshToken {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 }
 
-model Photo {
-  id        String   @id @default(uuid())
-  profileId String
-  url       String
-  publicId  String
-  isPrimary Boolean  @default(false)
-  createdAt DateTime @default(now())
+// ---------------------------------------------------------
 
-  // Relation
-  profile UserProfile @relation(fields: [profileId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-
-  @@index([profileId])
-  @@index([isPrimary])
-}
+// ---------------------------------------------------------
 
 model Institution {
   id   String @id @default(uuid())
@@ -107,10 +104,27 @@ model Institution {
   profiles UserProfile[]
 }
 
+// ---------------------------------------------------------
+
 model Course {
   id   String @id @default(uuid())
   name String @unique
 
   // Relation
   profiles UserProfile[]
+}
+
+// ---------------------------------------------------------
+
+model Post {
+  id            String   @id @default(uuid())
+  title         String
+  content       String?
+  attachmentUrl String?
+  userId        String
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  // Relation
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 }
