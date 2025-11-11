@@ -49,18 +49,17 @@ model User {
 model UserProfile {
   id            String   @id @default(uuid())
   userId        String   @unique
-  courseId      String
-  institutionId String
-  departmentId  String
-  level         String
-  avatarUrl     String
+  courseId      String?
+  institutionId String?
+  level         String?
+  avatarUrl     String?
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 
   // Relations
   user         User         @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  institution  Institution  @relation(fields: [institutionId], references: [id], onDelete: Restrict, onUpdate: Cascade)
-  course       Course       @relation(fields: [courseId], references: [id], onDelete: Restrict, onUpdate: Cascade)    
+  institution  Institution?  @relation(fields: [institutionId], references: [id], onDelete: Restrict, onUpdate: Cascade)
+  course       Course?       @relation(fields: [courseId], references: [id], onDelete: Restrict, onUpdate: Cascade)    
 }
 
 // ---------------------------------------------------------
