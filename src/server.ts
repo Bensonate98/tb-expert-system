@@ -1,7 +1,8 @@
 import 'reflect-metadata';
 import app from './app';
 import { PORT } from './config/env';
+import logger from './config/logger';
 
 app.listen(PORT, () => {
-  console.log(`Server running on  http://localhost:${PORT}`);
+  logger.info(`Server running on  http://localhost:${PORT}`);
 });

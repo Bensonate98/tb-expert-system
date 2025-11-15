@@ -1,6 +1,6 @@
 import { ErrorRequestHandler } from 'express';
-import ErrorTypes from '../../shared/constants/errorTypes';
-import logger from '../../config/logger';
+import ErrorTypes from '../constants/errorTypes';
+import logger from '../config/logger';
 
 const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
   let statusCode = err.statusCode || 500;

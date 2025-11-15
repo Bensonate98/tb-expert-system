@@ -1,7 +1,6 @@
 import express, { ErrorRequestHandler } from 'express';
 import cors from 'cors';
-import routes from './routes/index';
-import errorHandler from './shared/middlewares/errorHandler';
+import errorHandler from './middlewares/errorHandler';
 
 const app = express();
 
@@ -11,9 +10,8 @@ app.use(cors());
 
 // routes
 app.get('/', (req, res) => {
-  res.send('Welcome to mindwave connect');
+  res.send('Welcome to TB Predictor');
 });
-app.use('/api/v1', routes);
 
 // error handler
 app.use(errorHandler as ErrorRequestHandler);
