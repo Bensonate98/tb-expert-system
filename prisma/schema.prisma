@@ -10,3 +10,56 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model Patient {
+  id           String       @id @default(cuid())           // internal unique ID
+  patientCode  String       @unique                        // e.g. TB-2025-001
+
+  fullName     String
+  age          Int
+  gender       String
+  phone        String
+  address      String
+
+  diagnoses    Diagnosis[]
+  reports      Report[]
+
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+}
+
+model Diagnosis {
+  id          String     @id @default(cuid())
+  patient     Patient    @relation(fields: [patientId], references: [id])
+  patientId   String
+
+  // TB symptom fields
+  cough2Weeks       Boolean
+  nightSweat        Boolean
+  weightLoss        Boolean
+  fever             Boolean
+  chestPain         Boolean
+  bloodInSputum     Boolean
+  fatigue           Boolean?
+
+  // Additional clinical info
+  contactWithTb         Boolean?  
+
+  // Diagnosis result
+  result            String          // Likely TB | Possible TB | Unlikely TB
+  reports           Report[]
+
+  createdAt   DateTime  @default(now())
+}
+
+model Report {
+  id            String     @id @default(cuid())
+  patient       Patient    @relation(fields: [patientId], references: [id])
+  patientId     String
+
+  diagnosis     Diagnosis  @relation(fields: [diagnosisId], references: [id])
+  diagnosisId   String
+
+  reportText    String     // for display or PDF export
+  createdAt     DateTime   @default(now())
+}

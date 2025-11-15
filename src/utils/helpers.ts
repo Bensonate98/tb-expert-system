@@ -1,5 +1,5 @@
 import bcrypt from 'bcrypt';
-import crypto from "crypto";
+import crypto from 'crypto';
 
 export const hashString = async (value: string): Promise<string> => {
   return await bcrypt.hash(value, 10);
@@ -18,19 +18,15 @@ export const generateOtp = (length: number = 4): string => {
   return otp;
 };
 
-
-const hiddenFields = [
-  "password",
-  "googleId"
-];
+const hiddenFields = ['password', 'googleId'];
 
 export const sanitizeUserData = (user: any) => {
   if (!user) return null;
   const userObj = user.toJSON ? user.toJSON() : { ...user };
-  hiddenFields.forEach(field => delete userObj[field]);
+  hiddenFields.forEach((field) => delete userObj[field]);
   return userObj;
-}
+};
 
 export const cryptoHash = (value: string): string => {
-  return crypto.createHash("sha256").update(value).digest("hex");
-}
+  return crypto.createHash('sha256').update(value).digest('hex');
+};
