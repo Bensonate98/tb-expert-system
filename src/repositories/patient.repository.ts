@@ -55,6 +55,16 @@ class PatientRepository {
       orderBy: { createdAt: 'desc' },
     });
   }
+
+  async deleteById(
+    id: string,
+    txn?: Prisma.TransactionClient
+  ) {
+    const dbClient = txn || this.db;
+    return await dbClient.patient.delete({
+      where: { id },
+    });
+  }
 }
 
 export default PatientRepository;

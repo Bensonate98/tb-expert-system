@@ -61,4 +61,9 @@ router.get(
     reportController.getByPatient
 );
 
+router.delete(
+    "/patients/:patientId",
+    patientController.deletePatient
+);
+
 export default router;

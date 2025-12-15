@@ -30,7 +30,7 @@ model Patient {
 
 model Diagnosis {
   id          String     @id @default(cuid())
-  patient     Patient    @relation(fields: [patientId], references: [id])
+  patient     Patient    @relation(fields: [patientId], references: [id], onDelete: Cascade)
   patientId   String
 
   // TB symptom fields
@@ -54,7 +54,7 @@ model Diagnosis {
 
 model Report {
   id            String     @id @default(cuid())
-  patient       Patient    @relation(fields: [patientId], references: [id])
+  patient       Patient    @relation(fields: [patientId], references: [id], onDelete: Cascade)
   patientId     String
 
   diagnosis     Diagnosis  @relation(fields: [diagnosisId], references: [id])

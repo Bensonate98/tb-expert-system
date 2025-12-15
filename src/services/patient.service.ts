@@ -42,6 +42,25 @@ class PatientService {
     }
     return patient;
   }
+
+  async deletePatient(patientId: string) {
+    const patient = await this.patientRepo.findById(patientId);
+
+    if (!patient) {
+      throw new AppError(
+        'Patient not found',
+        404,
+        ErrorTypes.NOT_FOUND
+      );
+    }
+
+    await this.patientRepo.deleteById(patientId);
+
+    return {
+      message: 'Patient deleted successfully',
+    };
+  }
+
 }
 
 export default PatientService;

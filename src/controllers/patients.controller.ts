@@ -82,6 +82,26 @@ class PatientController {
       next(error);
     }
   }
+
+  deletePatient = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) => {
+    try {
+      const { patientId } = req.params;
+      const result = await this.patient.deletePatient(patientId);
+
+      successResponse(
+        res,
+        200,
+        result.message
+      );
+    } catch (error) {
+      next(error);
+    }
+  }
+
 }
 
 export default PatientController;
